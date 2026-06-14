@@ -1,5 +1,4 @@
 import React, { useState } from "react";
-import DisplayList from "./DisplayList";
 
 function HogCards({ hog }) {
   const [showDetails, setShowDetails] = useState(false);
@@ -8,39 +7,46 @@ function HogCards({ hog }) {
     setShowDetails(!showDetails);
   }
 
+  const tileSizeClass = showDetails ? "maxPigTile" : "minPigTile";
+
   return (
-    <div className="pigTile minPigTile">
-      <h3 onClick={handleDetails} style={{ cursor: "pointer" }}>
-        Title: {hog.name}
-      </h3>
+    <article className={`pigTile ${tileSizeClass}`}>
+      <header>
+        <h3
+          onClick={handleDetails}
+          style={{ cursor: "pointer" }}
+          role="button"
+          aria-expanded={showDetails}
+        >
+          Title: {hog.name}
+        </h3>
+      </header>
+
       <img
         src={hog.image}
-        alt={hog.name}
-        style={{ width: "100%", height: "75%", objectFit: "cover" }}
+        alt={`A photograph of ${hog.name} the hog`}
+        style={{ width: "100%", height: "65%", objectFit: "cover" }}
       />
+
       {showDetails && (
-        <div className="normalText">
+        <section className="normalText" aria-label="Hog Specifications">
           <ul>
             <li>
-              <strong>Speciality:</strong>
-              {hog.specialty}
+              <strong>Specialty:</strong> {hog.specialty}
             </li>
             <li>
-              <strong>Greased:</strong>
-              {hog.greased ? "Yes" : "No"}
+              <strong>Greased:</strong> {hog.greased ? "Yes" : "No"}
             </li>
             <li>
-              <strong>Weight:</strong>
-              {hog.weight} lbs
+              <strong>Weight:</strong> {hog.weight} lbs
             </li>
-            <li>
-              <strong>Highest Medal:</strong>
-              {hog["highest medal achieved"]}
+            <li className="achievementText">
+              <strong>Highest Medal:</strong> {hog["highest medal achieved"]}
             </li>
           </ul>
-        </div>
+        </section>
       )}
-    </div>
+    </article>
   );
 }
 
